@@ -162,29 +162,68 @@ export const adminLogin = (async (ctx) => {
   ctx.status = status;
   ctx.body = body;
 });
-/*
-export const writePost = (async (ctx) => {
-  const firebaseToken = await verify(ctx.header.firebasetoken);
-  const { description, mediaName } = ctx.request.body;
+
+export const primaryLink = (async (ctx) => {
+  const authentication = await jwtverify(ctx.header.authentication);
+  const { uid } = ctx.request.body;
   let body : object, status : number;
-  let array= "";
 
-  if(firebaseToken !== 'error'){
+  if (authentication !== 'error') {
+    const user = await checkAdmin(authentication[0]);
 
-    for await ( let tmp of mediaName ){
-      array += tmp + ",";
+    if (user !== undefined) {
+      
+      await getConnection()
+      .createQueryBuilder()
+      .update(Crawl)
+      .set({isPrimary: false})
+      .execute();
+
+      await getConnection()
+      .createQueryBuilder()
+      .update(Crawl)
+      .set({isPrimary: true})
+      .where("Crawl.uid = :uid", { uid: uid })
+      .execute();
+
+      status = 201;
+      body = {};
+    }else{
+      status = 403;
+      body = await errorCode(108);
     }
+  }else{
+    status = 412;
+    body = await errorCode(302);
+  }
 
-    await getConnection()
-    .createQueryBuilder()
-    .insert()
-    .into(Post)
-    .values({ userUid: firebaseToken[0], description: description, mediaName: array })
-    .execute();
+  ctx.status = status;
+  ctx.body = body;
+});
 
-    status = 201;
-    body = {};
-  } else {
+export const writePost = (async (ctx) => {
+  const authentication = await jwtverify(ctx.header.authentication);
+  let { title, content, medias } = ctx.request.body;
+  let body : object, status : number;
+
+  if (authentication !== 'error') {
+    const user = await checkAdmin(authentication[0]);
+
+    if (user !== undefined) {
+      await getConnection()
+      .createQueryBuilder()
+      .insert()
+      .into(Post)
+      .values({ title: title, contents: content, media: medias.join(',') })
+      .execute();
+
+      status = 201;
+      body = {};
+    }else{
+      status = 403;
+      body = await errorCode(108);
+    }
+  }else{
     status = 412;
     body = await errorCode(302);
   }
@@ -192,4 +231,67 @@ export const writePost = (async (ctx) => {
   ctx.body = body;
 });
 
-*/
+export const updatePost = (async (ctx) => {
+  const authentication = await jwtverify(ctx.header.authentication);
+  const { uid } = ctx.params;
+  let { title, content, medias } = ctx.request.body;
+  let body : object, status : number;
+
+  if (authentication !== 'error') {
+    const user = await checkAdmin(authentication[0]);
+
+    if (user !== undefined) {
+
+      await getConnection()
+      .createQueryBuilder()
+      .update(Post)
+      .set({ title: title, contents: content, media: medias.join(',') })
+      .where("Post.uid = :uid", { uid: uid })
+      .execute();
+
+      status = 201;
+      body = {};
+    }else{
+      status = 403;
+      body = await errorCode(108);
+    }
+  }else{
+    status = 412;
+    body = await errorCode(302);
+  }
+
+  ctx.status = status;
+  ctx.body = body;
+});
+
+export const deletePost = (async (ctx) => {
+  const authentication = await jwtverify(ctx.header.authentication);
+  const { uid } = ctx.params;
+  let body : object, status : number;
+
+  if (authentication !== 'error') {
+    const user = await checkAdmin(authentication[0]);
+
+    if (user !== undefined) {
+
+      await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(Post)
+      .where("Post.uid = :uid", { uid: uid })
+      .execute();
+
+      status = 201;
+      body = {};
+    }else{
+      status = 403;
+      body = await errorCode(108);
+    }
+  }else{
+    status = 412;
+    body = await errorCode(302);
+  }
+
+  ctx.status = status;
+  ctx.body = body;
+});

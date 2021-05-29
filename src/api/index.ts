@@ -18,7 +18,7 @@ const fileFilter = async (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 
-import { loadPost, loadLink, loadImage, adminLogin, /*primaryLink, writePost, updatePost, deletePost,*/ uploadImage } from './api.controller';
+import { loadPost, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage } from './api.controller';
 
 api.get('/api/v1/post/:uid', loadPost); //
 api.get('/api/v1/link/:pid', loadLink); //
@@ -27,13 +27,12 @@ api.post('/api/v1/media', upload.single('media'), uploadImage); //
 api.get('/api/v1/media/:media', loadImage); //
 
 api.post('/api/v1/admin/login', adminLogin); //
-/*
-api.POST('/api/v1/primarylink', primaryLink);
-api.POST('/api/v1/post', writePost);
-api.PUT('/api/v1/post/:uid', updatePost);
-api.DELETE('/api/v1/post/:uid', deletePost);
 
-*/
+api.post('/api/v1/primarylink', primaryLink); //
+api.post('/api/v1/post', writePost); //
+api.put('/api/v1/post/:uid', updatePost);
+api.delete('/api/v1/post/:uid', deletePost);
+
 
 
 export default api
