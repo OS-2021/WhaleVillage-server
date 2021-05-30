@@ -75,7 +75,7 @@ export const loadLink = (async (ctx) => {
   if (pid !== undefined) {
     link = await getConnection()
     .createQueryBuilder()
-    .select(["crawl.uid", "crawl.title", "crawl.date"])
+    .select("post")
     .from(Crawl, "crawl")
     .where("crawl.page = :page", { page: pid })
     .getOne();
