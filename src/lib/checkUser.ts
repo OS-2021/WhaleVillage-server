@@ -10,7 +10,7 @@ export const checkAdmin = (async (uid) => {
   .select("admin")
   .from(Admin, "admin")
   .where("admin.uid = :uid", { uid: uid })
-  .orWhere("user.id = :id", { id: uid })
+  .orWhere("admin.id = :id", { id: uid })
   .getOne();
   
   if (admin !== undefined) {
