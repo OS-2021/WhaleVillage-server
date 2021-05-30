@@ -78,7 +78,7 @@ export const loadLink = (async (ctx) => {
     .select("crawl")
     .from(Crawl, "crawl")
     .where("crawl.page = :page", { page: pid })
-    .getOne();
+    .getMany();
 
     if (link === undefined) {
       status = 403;
