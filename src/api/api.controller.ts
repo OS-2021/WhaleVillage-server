@@ -262,7 +262,7 @@ export const updatePost = (async (ctx) => {
       .createQueryBuilder()
       .update(Post)
       .set({ title: title, contents: content, media: medias.join(',') })
-      .where("Post.uid = :uid", { uid: uid })
+      .where("post.uid = :uid", { uid: uid })
       .execute();
 
       status = 201;
@@ -294,7 +294,7 @@ export const deletePost = (async (ctx) => {
       .createQueryBuilder()
       .delete()
       .from(Post)
-      .where("Post.uid = :uid", { uid: uid })
+      .where("post.uid = :uid", { uid: uid })
       .execute();
 
       status = 201;
