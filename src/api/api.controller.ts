@@ -33,8 +33,8 @@ export const loadPostWithUid = (async (ctx) => {
   .where("post.uid = :uid", { uid: uid })
   .getOne();
 
-  post['media'] = post['media'].split(',');
   if (post !== undefined) {    
+    post['media'] = post['media'].split(',');
     status = 200;
     body = post;
   }else{
