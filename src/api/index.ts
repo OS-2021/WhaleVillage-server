@@ -18,9 +18,10 @@ const fileFilter = async (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 
-import { loadPost, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage } from './api.controller';
+import { loadPostWithUid, loadPostWithOutUid, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage } from './api.controller';
 
-api.get('/post/:uid', loadPost); //
+api.get('/post', loadPostWithOutUid); //
+api.get('/post/:uid', loadPostWithUid); //
 api.get('/link/:pid', loadLink); //
 
 api.post('/media', upload.single('media'), uploadImage); //

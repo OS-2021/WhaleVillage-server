@@ -22,23 +22,37 @@ const cryptoPassword = (async(password) => { return await crypto.createHmac('sha
 const translator = short(short.constants.flickrBase58, { consistentLength: false });
 
 
-export const loadPost = (async (ctx) => {
+export const loadPostWithUid = (async (ctx) => {
   let { uid } = ctx.params;
   let body : object, status : number, post : object;
 
-  if (uid !== undefined) {
-    post = await getConnection()
-    .createQueryBuilder()
-    .select(["post.uid", "post.title", "post.date"])
-    .from(Post, "post")
-    .getMany();
+  post = await getConnection()
+  .createQueryBuilder()
+  .from(Post, "post")
+  .where("post.uid = :uid", { uid: uid })
+  .getOne();
+
+  if (post !== undefined) {    
+    status = 200;
+    body = post;
   }else{
-    post = await getConnection()
-    .createQueryBuilder()
-    .from(Post, "post")
-    .where("post.uid = :uid", { uid: uid })
-    .getOne();
+    status = 403;
+    body = await errorCode(303);
   }
+
+  ctx.status = status;
+  ctx.body = body;
+});
+
+export const loadPostWithOutUid = (async (ctx) => {
+  let body : object, status : number, post : object;
+
+  post = await getConnection()
+  .createQueryBuilder()
+  .select(["post.uid", "post.title", "post.date"])
+  .from(Post, "post")
+  .getMany();
+
 
   if (post !== undefined) {    
     status = 200;
