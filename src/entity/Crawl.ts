@@ -11,6 +11,9 @@ export class Crawl {
 
   @Column()
   title: string;
+
+  @Column()
+  link: string;
     
   @Column({default: () => false})
   isPrimary: boolean;
