@@ -28,16 +28,17 @@ export const loadPostWithUid = (async (ctx) => {
 
   post = await getConnection()
   .createQueryBuilder()
+  .select("post")
   .from(Post, "post")
   .where("post.uid = :uid", { uid: uid })
   .getOne();
-
+  
   if (post !== undefined) {    
     status = 200;
     body = post;
   }else{
     status = 403;
-    body = await errorCode(303);
+    body = await errorCode(108);
   }
 
   ctx.status = status;
