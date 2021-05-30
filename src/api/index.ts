@@ -20,18 +20,18 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 import { loadPost, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage } from './api.controller';
 
-api.get('/api/v1/post/:uid', loadPost); //
-api.get('/api/v1/link/:pid', loadLink); //
+api.get('/post/:uid', loadPost); //
+api.get('/link/:pid', loadLink); //
 
-api.post('/api/v1/media', upload.single('media'), uploadImage); //
-api.get('/api/v1/media/:media', loadImage); //
+api.post('/media', upload.single('media'), uploadImage); //
+api.get('/media/:media', loadImage); //
 
-api.post('/api/v1/admin/login', adminLogin); //
+api.post('/admin/login', adminLogin); //
 
-api.post('/api/v1/primarylink', primaryLink); //
-api.post('/api/v1/post', writePost); //
-api.put('/api/v1/post/:uid', updatePost);
-api.delete('/api/v1/post/:uid', deletePost);
+api.post('/primarylink', primaryLink); //
+api.post('/post', writePost); //
+api.put('/post/:uid', updatePost);
+api.delete('/post/:uid', deletePost);
 
 
 
