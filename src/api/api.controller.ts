@@ -95,7 +95,9 @@ export const loadLink = (async (ctx) => {
   ctx.body = body;
 });
 
-export const uploadImage = (async (ctx) => { 
+export const uploadImage = (async (ctx) => {
+  console.log(ctx.header.authentication);
+
   const authentication = await jwtverify(ctx.header.authentication);
   const fileName = ctx.request.file != undefined ? ctx.request.file.filename : undefined;
   let body : object, status : number;
