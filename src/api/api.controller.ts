@@ -205,7 +205,7 @@ export const primaryLink = (async (ctx) => {
       .createQueryBuilder()
       .update(Crawl)
       .set({isPrimary: true})
-      .where("Crawl.uid = :uid", { uid: uid })
+      .where("crawl.uid = :uid", { uid: uid })
       .execute();
 
       status = 201;
