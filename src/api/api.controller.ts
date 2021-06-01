@@ -100,7 +100,6 @@ export const uploadImage = (async (ctx) => {
   const fileName = ctx.request.file != undefined ? ctx.request.file.filename : undefined;
   let body : object, status : number;
   console.log(ctx.request.file);
-  console.log(ctx.request.file.filename);
   console.log(ctx);
   
   if (fileName !== undefined) {
