@@ -160,6 +160,7 @@ export const adminLogin = (async (ctx) => {
   let body,status,accessToken;
 
   console.log(ctx);
+  console.log(ctx.request.body);
 
   const admin = await getConnection()
   .createQueryBuilder()
