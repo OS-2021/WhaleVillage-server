@@ -99,8 +99,7 @@ export const uploadImage = (async (ctx) => {
   const authentication = await jwtverify(ctx.header.authentication);
   const fileName = ctx.request.file != undefined ? ctx.request.file.filename : undefined;
   let body : object, status : number;
-  console.log(ctx.request);
-  console.log(ctx.request.body);
+  console.log(ctx);
   
   if (fileName !== undefined) {
     if (authentication !== 'error') {
