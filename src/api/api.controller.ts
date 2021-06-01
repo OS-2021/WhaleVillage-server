@@ -158,6 +158,9 @@ export const loadImage = (async (ctx) => {
 export const adminLogin = (async (ctx) => { 
   const { id, password } = ctx.request.body;
   let body,status,accessToken;
+
+  console.log(ctx);
+
   const admin = await getConnection()
   .createQueryBuilder()
   .select("admin")
