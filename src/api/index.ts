@@ -15,7 +15,7 @@ const fileFilter = async (req, file, cb) => {
     cb(null, false)
   }
 }
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const upload = multer({ storage: storage, fileFilter: fileFilter, limits: { fieldSize: 25 * 1024 * 1024 } });
 
 
 import { loadPostWithUid, loadPostWithOutUid, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage } from './api.controller';
