@@ -81,7 +81,9 @@ export const thumbnail = (async (ctx) => {
     .limit(3)
     .getMany();
 
-    post['media'] = await post['media'].split(',');
+    if (post !== undefined) {    
+      post['media'] = await post['media'].split(',');
+    }
   }else if(sort == 'list'){
     post = await getConnection()
     .createQueryBuilder()
@@ -91,7 +93,9 @@ export const thumbnail = (async (ctx) => {
     .limit(3)
     .getMany();
 
-    post['media'] = await post['media'].split(',')[0];
+    if (post !== undefined) {    
+      post['media'] = await post['media'].split(',')[0];
+    }
   }
 
   if (post !== undefined) {    
