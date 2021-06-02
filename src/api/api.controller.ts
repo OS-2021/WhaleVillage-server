@@ -81,7 +81,7 @@ export const thumbnail = (async (ctx) => {
     .limit(3)
     .getMany();
 
-    if (post !== undefined) {    
+    if (post['media'] !== undefined) {    
       post['media'] = await post['media'].split(',');
     }
   }else if(sort == 'list'){
@@ -93,7 +93,7 @@ export const thumbnail = (async (ctx) => {
     .limit(3)
     .getMany();
 
-    if (post !== undefined) {    
+    if (post['media'] !== undefined) {    
       post['media'] = await post['media'].split(',')[0];
     }
   }
