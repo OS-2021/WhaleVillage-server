@@ -70,18 +70,31 @@ export const loadPostWithOutUid = (async (ctx) => {
 
 export const thumbnail = (async (ctx) => {
   let body : object, status : number, post : object;
+  let { sort } = ctx.params;
 
-  post = await getConnection()
-  .createQueryBuilder()
-  .select(["post.uid", "post.title", "post.date", "post.media"])
-  .from(Post, "post")
-  .orderBy('post.date', 'ASC')
-  .limit(3)
-  .getMany();
+  if (sort == 'new') {
+    post = await getConnection()
+    .createQueryBuilder()
+    .select(["post.uid", "post.title", "post.date", "post.media"])
+    .from(Post, "post")
+    .orderBy('post.date', 'ASC')
+    .limit(3)
+    .getMany();
 
+    post['media'] = await post['media'].split(',');
+  }else if(sort == 'list'){
+    post = await getConnection()
+    .createQueryBuilder()
+    .select(["post.media"])
+    .from(Post, "post")
+    .orderBy('post.date', 'ASC')
+    .limit(3)
+    .getMany();
+
+    post['media'] = await post['media'].split(',')[0];
+  }
 
   if (post !== undefined) {    
-    post['media'] = post['media'].split(',');
     status = 200;
     body = post;
   }else{
