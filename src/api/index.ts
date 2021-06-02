@@ -23,7 +23,7 @@ import { loadPostWithUid, loadPostWithOutUid, loadLink, loadImage, adminLogin, p
 api.get('/post', loadPostWithOutUid); //
 api.get('/post/:uid', loadPostWithUid); //
 api.get('/link/:pid', loadLink); //
-api.get('/thumbnail/:sort ', thumbnail); //
+api.get('/thumbnail/:sort', thumbnail); //
 
 api.post('/media', upload.single('media'), uploadImage); //
 api.get('/media/:media', loadImage); //
