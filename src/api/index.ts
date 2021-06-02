@@ -9,11 +9,7 @@ const storage = multer.diskStorage({
 const fileFilter = async (req, file, cb) => {
   let typeArray = file.mimetype.split('/');
   let fileType = typeArray[1];
-  if (fileType == 'jpg' || fileType == 'png' || fileType == 'jpeg' || fileType == 'gif' || fileType == 'mp4' || fileType == 'avi' || fileType == 'wmv' || fileType == 'H.264') {
-    cb(null, true);
-  }else{
-    cb(null, false)
-  }
+  cb(null, false)
 }
 const upload = multer({ storage: storage, fileFilter: fileFilter, limits: { fieldSize: 25 * 1024 * 1024 } });
 
