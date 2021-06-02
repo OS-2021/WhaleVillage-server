@@ -68,6 +68,31 @@ export const loadPostWithOutUid = (async (ctx) => {
   ctx.body = body;
 });
 
+export const thumbnail = (async (ctx) => {
+  let body : object, status : number, post : object;
+
+  post = await getConnection()
+  .createQueryBuilder()
+  .select(["post.uid", "post.title", "post.date", "post.media"])
+  .from(Post, "post")
+  .orderBy('post.date', 'ASC')
+  .limit(3)
+  .getMany();
+
+
+  if (post !== undefined) {    
+    post['media'] = post['media'].split(',');
+    status = 200;
+    body = post;
+  }else{
+    status = 403;
+    body = await errorCode(303);
+  }
+
+  ctx.status = status;
+  ctx.body = body;
+});
+
 export const loadLink = (async (ctx) => {
   let { pid } = ctx.params;
   let body : object, status : number, link : object;
@@ -190,6 +215,7 @@ export const adminLogin = (async (ctx) => {
 export const primaryLink = (async (ctx) => {
   const authentication = await jwtverify(ctx.header.authentication);
   const { uid } = ctx.request.body;
+  const { pid } = ctx.params;
   let body : object, status : number;
 
   if (authentication !== 'error') {
@@ -201,6 +227,7 @@ export const primaryLink = (async (ctx) => {
       .createQueryBuilder()
       .update(Crawl)
       .set({isPrimary: false})
+      .where("crawl.page = :page", { page: pid })
       .execute();
 
       await getConnection()
@@ -208,6 +235,7 @@ export const primaryLink = (async (ctx) => {
       .update(Crawl)
       .set({isPrimary: true})
       .where("crawl.uid = :uid", { uid: uid })
+      .andWhere("crawl.page = :page", { page: pid })
       .execute();
 
       status = 201;

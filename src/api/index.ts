@@ -18,11 +18,12 @@ const fileFilter = async (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: fileFilter, limits: { fieldSize: 25 * 1024 * 1024 } });
 
 
-import { loadPostWithUid, loadPostWithOutUid, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage } from './api.controller';
+import { loadPostWithUid, loadPostWithOutUid, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage, thumbnail } from './api.controller';
 
 api.get('/post', loadPostWithOutUid); //
 api.get('/post/:uid', loadPostWithUid); //
 api.get('/link/:pid', loadLink); //
+api.get('/thumbnail ', thumbnail); //
 
 api.post('/media', upload.single('media'), uploadImage); //
 api.get('/media/:media', loadImage); //
