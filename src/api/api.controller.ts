@@ -69,7 +69,7 @@ export const loadPostWithOutUid = (async (ctx) => {
 });
 
 export const thumbnail = (async (ctx) => {
-  let body : object, status : number, post : object;
+  let body : object, status : number, post;
   let { sort } = ctx.params;
 
   if (sort == 'new') {
@@ -81,9 +81,13 @@ export const thumbnail = (async (ctx) => {
     .limit(3)
     .getMany();
 
-    if (post['media'] !== undefined) {    
-      post['media'] = await post['media'].split(',');
+
+    for (let i = 0; i < post.length; i++) {
+      if (post[i]['media'] != undefined) {    
+        post[i]['media'] = await post[i]['media'].split(',');
+      }      
     }
+
   }else if(sort == 'list'){
     post = await getConnection()
     .createQueryBuilder()
@@ -93,8 +97,10 @@ export const thumbnail = (async (ctx) => {
     .limit(3)
     .getMany();
 
-    if (post['media'] !== undefined) {    
-      post['media'] = await post['media'].split(',')[0];
+    for (let i = 0; i < post.length; i++) {
+      if (post[i]['media'] != undefined) {    
+        post[i]['media'] = await post[i]['media'].split(',')[0];
+      }      
     }
   }
 
