@@ -193,7 +193,7 @@ export const loadImage = (async (ctx) => {
   .orWhere("media.path = :path", { path: media })
   .getOne();
 
-  try { await send(ctx, path.path, { root: './files/' }); }
+  try { await send(ctx, encodeURIComponent(path.path), { root: './files/' }); }
   catch(err){
     console.log(err);
     
