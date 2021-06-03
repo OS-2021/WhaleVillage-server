@@ -195,6 +195,8 @@ export const loadImage = (async (ctx) => {
 
   try { await send(ctx, path.path, { root: './files/' }); }
   catch(err){
+    console.log(err);
+    
     ctx.status = 404;
     ctx.body = await errorCode(501);
   }
