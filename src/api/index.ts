@@ -23,7 +23,7 @@ api.get('/media/:media', loadImage); //
 
 api.post('/admin/login', adminLogin); //
 
-api.post('/primarylink', primaryLink); //
+api.post('/primarylink/:pid', primaryLink); //
 api.post('/post', writePost); //
 api.put('/post/:uid', updatePost);
 api.delete('/post/:uid', deletePost);
