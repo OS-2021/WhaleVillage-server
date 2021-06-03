@@ -247,6 +247,9 @@ export const primaryLink = (async (ctx) => {
     const user = await checkAdmin(authentication[0]);
 
     if (user !== undefined) {
+      console.log(user);
+      console.log(uid);
+      console.log(pid);
       
       await getConnection()
       .createQueryBuilder()
