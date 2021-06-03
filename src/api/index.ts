@@ -3,15 +3,12 @@ import multer from '@koa/multer';
 
 const api = new Router();
 const storage = multer.diskStorage({
-  destination: async (req, file, cb) => { cb(null, './files') },
-  filename: async (req, file, cb) => { cb(null,`${Date.now()}-${file.originalname}`) }
+  destination: async (req, file, cb) => { await cb(null, './files') },
+  filename: async (req, file, cb) => { await cb(null,`${Date.now()}-${encodeURIComponent(file.originalname)}`) }
 });
-const fileFilter = async (req, file, cb) => {
-  let typeArray = file.mimetype.split('/');
-  let fileType = typeArray[1];
-  cb(null, false)
-}
-const upload = multer({ storage: storage, fileFilter: fileFilter, limits: { fieldSize: 25 * 1024 * 1024 } });
+
+
+const upload = multer({ storage: storage, limits: { fieldSize: 1024 * 1024 * 1024 } });
 
 
 import { loadPostWithUid, loadPostWithOutUid, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage, thumbnail } from './api.controller';
