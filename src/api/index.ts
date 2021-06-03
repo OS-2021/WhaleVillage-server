@@ -4,8 +4,7 @@ import multer from '@koa/multer';
 const api = new Router();
 const storage = multer.diskStorage({
   destination: async (req, file, cb) => { cb(null, './files') },
-  filename: async (req, file, cb) => { cb(null,`${Date.now()}-${file.originalname}`)
-  console.log(file.originalname); }
+  filename: async (req, file, cb) => { cb(null,`${Date.now()}-${file.originalname}`) }
 });
 const fileFilter = async (req, file, cb) => {
   let typeArray = file.mimetype.split('/');
