@@ -53,6 +53,7 @@ export const loadPostWithOutUid = (async (ctx) => {
   .createQueryBuilder()
   .select(["post.uid", "post.title", "post.date"])
   .from(Post, "post")
+  .orderBy('post.date', 'DESC')
   .getMany();
 
 
@@ -77,7 +78,7 @@ export const thumbnail = (async (ctx) => {
     .createQueryBuilder()
     .select(["post.uid", "post.title", "post.date", "post.media"])
     .from(Post, "post")
-    .orderBy('post.date', 'ASC')
+    .orderBy('post.date', 'DESC')
     .limit(3)
     .getMany();
 
@@ -93,7 +94,7 @@ export const thumbnail = (async (ctx) => {
     .createQueryBuilder()
     .select(["post.media"])
     .from(Post, "post")
-    .orderBy('post.date', 'ASC')
+    .orderBy('post.date', 'DESC')
     .limit(3)
     .getMany();
 
