@@ -191,6 +191,7 @@ export const uploadImage = (async (ctx) => {
 export const loadImage = (async (ctx) => { 
   const { media } = ctx.params;
   let body : object, status : number;
+  console.log(media);
   
   const path = await getConnection()
   .createQueryBuilder()
