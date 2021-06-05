@@ -170,7 +170,7 @@ export const uploadImage = (async (ctx) => {
         .execute();
 
         status = 201;
-        body = {"uid" : uid};
+        body = {"uid" : fileName};
       }else{
         status = 403;
         body = await errorCode(303);
