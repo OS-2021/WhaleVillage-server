@@ -189,6 +189,28 @@ export const uploadImage = (async (ctx) => {
   ctx.body = body;
 });
 
+export const loadImage = (async (ctx) => { 
+  const { media } = ctx.params;
+  let body : object, status : number;
+  console.log(media);
+  
+  const path = await getConnection()
+  .createQueryBuilder()
+  .select("media")
+  .from(Media, "media")
+  .where("media.uid = :uid", { uid: media })
+  .orWhere("media.path = :path", { path: encodeURIComponent(media) })
+  .getOne();
+
+  try { await send(ctx, encodeURIComponent(path.path), { root: './files/' }); }
+  catch(err){
+    console.log(err);
+    
+    ctx.status = 404;
+    ctx.body = await errorCode(501);
+  }
+});
+
 export const adminLogin = (async (ctx) => { 
   const { id, password } = ctx.request.body;
   let body,status,accessToken;

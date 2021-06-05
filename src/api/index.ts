@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage, limits: { fieldSize: 1024 * 1024 * 1024 } });
 
 
-import { loadPostWithUid, loadPostWithOutUid, loadLink, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage, thumbnail } from './api.controller';
+import { loadPostWithUid, loadPostWithOutUid, loadLink, loadImage, adminLogin, primaryLink, writePost, updatePost, deletePost, uploadImage, thumbnail } from './api.controller';
 
 api.get('/post', loadPostWithOutUid); //
 api.get('/post/:uid', loadPostWithUid); //
@@ -19,6 +19,7 @@ api.get('/link/:pid', loadLink); //
 api.get('/thumbnail/:sort', thumbnail); //
 
 api.post('/media', upload.single('media'), uploadImage); //
+api.get('/media/:media', loadImage); //
 
 api.post('/admin/login', adminLogin); //
 
