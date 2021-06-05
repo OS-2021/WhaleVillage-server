@@ -6,6 +6,7 @@ import { Post } from '../entity/Post';
 import { Crawl } from '../entity/Crawl';
 import { Admin } from '../entity/Admin';
 import { Media } from '../entity/Media';
+import fs from 'fs';
 import crypto from 'crypto';
 import send from 'koa-send';
 import short from 'short-uuid';
@@ -166,11 +167,11 @@ export const uploadImage = (async (ctx) => {
         .into(Media)
         .values({ 
           uid : uid,
-          path: fileName })
+          path: `http://${process.env.DOMAIN || 'localhost'}:5011/movie/` + fileName })
         .execute();
 
         status = 201;
-        body = {"uid" : fileName};
+        body = {"uid" : `http://${process.env.DOMAIN || 'localhost'}:5011/movie/` + fileName};
       }else{
         status = 403;
         body = await errorCode(303);
@@ -186,28 +187,6 @@ export const uploadImage = (async (ctx) => {
 
   ctx.status = status;
   ctx.body = body;
-});
-
-export const loadImage = (async (ctx) => { 
-  const { media } = ctx.params;
-  let body : object, status : number;
-  console.log(media);
-  
-  const path = await getConnection()
-  .createQueryBuilder()
-  .select("media")
-  .from(Media, "media")
-  .where("media.uid = :uid", { uid: media })
-  .orWhere("media.path = :path", { path: encodeURIComponent(media) })
-  .getOne();
-
-  try { await send(ctx, encodeURIComponent(path.path), { root: './files/' }); }
-  catch(err){
-    console.log(err);
-    
-    ctx.status = 404;
-    ctx.body = await errorCode(501);
-  }
 });
 
 export const adminLogin = (async (ctx) => { 
