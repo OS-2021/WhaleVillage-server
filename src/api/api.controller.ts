@@ -293,7 +293,7 @@ export const writePost = (async (ctx) => {
     const user = await checkAdmin(authentication[0]);
 
     if (user !== undefined) {
-      let temp [];
+      let temp = [];
       for (let i = 0; i < medias.length; i++) {
         let fileType = medias[i].split('.')[1];
         if (fileType == 'mkv' || fileType == 'avi' || fileType == 'mp4' || fileType == 'mpg' || fileType == 'flv' || fileType == 'wmv' || fileType == 'asf' || fileType == 'asx' || fileType == 'ogm' || fileType == 'ogv' || fileType == 'mov') {
@@ -332,7 +332,7 @@ export const updatePost = (async (ctx) => {
     const user = await checkAdmin(authentication[0]);
 
     if (user !== undefined) {
-      let temp [];
+      let temp = [];
       for (let i = 0; i < medias.length; i++) {
         let fileType = medias[i].split('.')[1];
         if (fileType == 'mkv' || fileType == 'avi' || fileType == 'mp4' || fileType == 'mpg' || fileType == 'flv' || fileType == 'wmv' || fileType == 'asf' || fileType == 'asx' || fileType == 'ogm' || fileType == 'ogv' || fileType == 'mov') {
