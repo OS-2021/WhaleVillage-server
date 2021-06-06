@@ -293,11 +293,19 @@ export const writePost = (async (ctx) => {
     const user = await checkAdmin(authentication[0]);
 
     if (user !== undefined) {
+      let temp [];
+      for (let i = 0; i < medias.length; i++) {
+        let fileType = medias[i].split('.')[1];
+        if (fileType == 'mkv' || fileType == 'avi' || fileType == 'mp4' || fileType == 'mpg' || fileType == 'flv' || fileType == 'wmv' || fileType == 'asf' || fileType == 'asx' || fileType == 'ogm' || fileType == 'ogv' || fileType == 'mov') {
+          temp.push(medias[i]);
+        }else{ temp.unshift(medias[i]); }
+      }
+
       await getConnection()
       .createQueryBuilder()
       .insert()
       .into(Post)
-      .values({ title: title, contents: content, media: medias.join(',') })
+      .values({ title: title, contents: content, media: temp.join(',') })
       .execute();
 
       status = 201;
@@ -324,11 +332,18 @@ export const updatePost = (async (ctx) => {
     const user = await checkAdmin(authentication[0]);
 
     if (user !== undefined) {
+      let temp [];
+      for (let i = 0; i < medias.length; i++) {
+        let fileType = medias[i].split('.')[1];
+        if (fileType == 'mkv' || fileType == 'avi' || fileType == 'mp4' || fileType == 'mpg' || fileType == 'flv' || fileType == 'wmv' || fileType == 'asf' || fileType == 'asx' || fileType == 'ogm' || fileType == 'ogv' || fileType == 'mov') {
+          temp.push(medias[i]);
+        }else{ temp.unshift(medias[i]); }
+      }
 
       await getConnection()
       .createQueryBuilder()
       .update(Post)
-      .set({ title: title, contents: content, media: medias.join(',') })
+      .set({ title: title, contents: content, media: temp.join(',') })
       .where("post.uid = :uid", { uid: uid })
       .execute();
 
